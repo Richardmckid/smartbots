@@ -1,4 +1,5 @@
 import { useState } from "react"
+import axios from "axios";
 
 export default function MobileModal() {
     // const [showOtpPage, setShowOtpPage] = useState(false)
@@ -15,35 +16,75 @@ export default function MobileModal() {
         let password = process.env.BULKSMS_PASS;
 
         let postData = JSON.stringify({
-        'to' : ['+267'+mobile],
-        'body': 'Your OTP is: '+otp
+        'to' : ['+26775255432'],
+        'body': 'Your OTP is: 123'
         });
 
-        let options = {
-            // hostname: 'api.bulksms.com',
-            // port: 443,
-            // path: '/v1/messages',
-            method: 'POST',
+    //     let options = {
+            
+    //         method: 'POST',
+    //         mode: 'cors',
+            
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Content-Length': postData.length,
+    //             'Access-Control-Allow-Origin': 'http://localhost:3000',
+    //             'Access-Control-Allow-Credentials': true,
+    //             'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
+    //         },
+    //         body:  postData
+            
+    //     };
+    //     let x = Buffer.from(username + ':' + password).toString('base64');
+    //     console.log(x)
+    //    fetch('https://api.bulksms.com/v1/messages', {
+    //     method: 'POST',
+    //     mode: 'no-cors',
+    //     headers: {
+    //         accept: 'application/json',
+    //         'Content-Type': 'application/json',
+    //         'Content-Length': postData.length,
+    //         'Access-Control-Allow-Credentials': true,
+    //         'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
+    //     },
+    //     body: postData
+        
+    //    })
+    //     .then(function(res){
+    //         console.log(res)
+    //         // return res.json()
+    //     })
+    //     .then(function(resJson){
+    //         console.log(resJson)
+    //         // return resJson;
+    //     })
+    //     .catch(function(error){
+    //         console.log(error)
+    //         // return error;
+    //     })
+
+
+        // var postData = {
+        //     email: "test@test.com",
+        //     password: "password"
+        //   };
+          
+          let axiosConfig = {
             headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
-            },
-            body:{
-                postData
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "http://localhost:3000",
+                'Authorization': 'Basic '+process.env.BULKSMS
+                // 'Authorization': 'Basic ' + Buffer.from(username + ':' + password).toString('base64')
             }
-        };
-
-       fetch('https://api.bulksms.com/v1/messages', options)
-        .then(function(res){
-            console.log(res.json())
-            return res.json()
-        })
-        .then(function(resJson){
-            console.log(resJson)
-            return resJson;
-        })
-
+          };
+          
+          axios.post('https://api.bulksms.com/v1/messages', postData, axiosConfig)
+          .then((res) => {
+            console.log("RESPONSE RECEIVED: ", res);
+          })
+          .catch((err) => {
+            console.log("AXIOS ERROR: ", err);
+          })
 
 
     }
